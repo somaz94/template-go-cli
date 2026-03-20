@@ -6,7 +6,7 @@ Guide for building, testing, and contributing to this project.
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.26+
 - Make
 
 <br/>

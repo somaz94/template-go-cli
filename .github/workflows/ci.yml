@@ -15,6 +15,7 @@ permissions:
 jobs:
   unit-tests:
     name: Unit Tests
+    if: ${{ !contains(github.repository, 'template-') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,6 +55,7 @@ jobs:
 
   build:
     name: Build
+    if: ${{ !contains(github.repository, 'template-') }}
     needs: unit-tests
     runs-on: ubuntu-latest
     steps:
@@ -74,7 +76,7 @@ jobs:
 
   ci-result:
     name: CI Result
-    if: always()
+    if: ${{ always() && !contains(github.repository, 'template-') }}
     needs:
       - unit-tests
       - build

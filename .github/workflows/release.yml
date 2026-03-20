@@ -12,6 +12,7 @@ permissions:
 jobs:
   release:
     name: Release
+    if: ${{ !contains(github.repository, 'template-') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -1,0 +1,80 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./cmd/main.go
+    binary: mycli
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.Version={{.Version}}
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.GitCommit={{.Commit}}
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.BuildDate={{.Date}}
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - '^chore:'
+
+release:
+  github:
+    owner: YOUR_USERNAME
+    name: YOUR_PROJECT
+  draft: false
+  prerelease: auto
+
+brews:
+  - repository:
+      owner: YOUR_USERNAME
+      name: homebrew-tap
+    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
+    description: "A brief description of your CLI tool"
+    license: "Apache-2.0"
+    install: |
+      bin.install "mycli"
+    test: |
+      system "#{bin}/mycli", "version"
+    caveats: |
+      mycli installed!
+
+      Quick start:
+        mycli greet          # Print a greeting
+        mycli version        # Show version info
+        mycli --help         # Full usage
+
+      Docs: https://github.com/YOUR_USERNAME/YOUR_PROJECT
+
+scoops:
+  - repository:
+      owner: YOUR_USERNAME
+      name: scoop-bucket
+    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
+    description: "A brief description of your CLI tool"
+    license: "Apache-2.0"

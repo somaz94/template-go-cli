@@ -10,7 +10,6 @@ on:
 
 jobs:
   backup:
-    if: ${{ !contains(github.repository, 'template-') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GitHub Repository

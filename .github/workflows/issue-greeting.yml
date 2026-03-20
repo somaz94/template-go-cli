@@ -6,7 +6,6 @@ on:
 
 jobs:
   greeting:
-    if: ${{ !contains(github.repository, 'template-') }}
     runs-on: ubuntu-latest
     permissions:
       issues: write

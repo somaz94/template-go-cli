@@ -18,9 +18,9 @@ builds:
       - arm64
     ldflags:
       - -s -w
-      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.Version={{.Version}}
-      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.GitCommit={{.Commit}}
-      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.BuildDate={{.Date}}
+      - -X github.com/somaz94/template-go-cli/cmd/cli.Version={{.Version}}
+      - -X github.com/somaz94/template-go-cli/cmd/cli.GitCommit={{.Commit}}
+      - -X github.com/somaz94/template-go-cli/cmd/cli.BuildDate={{.Date}}
 
 archives:
   - formats:
@@ -63,16 +63,16 @@ changelog:
 
 release:
   github:
-    owner: YOUR_USERNAME
-    name: YOUR_PROJECT
+    owner: somaz94
+    name: template-go-cli
   draft: false
   prerelease: auto
 
 brews:
   - repository:
-      owner: YOUR_USERNAME
+      owner: somaz94
       name: homebrew-tap
-    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
+    homepage: "https://github.com/somaz94/template-go-cli"
     description: "A brief description of your CLI tool"
     license: "Apache-2.0"
     install: |
@@ -87,12 +87,12 @@ brews:
         mycli version        # Show version info
         mycli --help         # Full usage
 
-      Docs: https://github.com/YOUR_USERNAME/YOUR_PROJECT
+      Docs: https://github.com/somaz94/template-go-cli
 
 scoops:
   - repository:
-      owner: YOUR_USERNAME
+      owner: somaz94
       name: scoop-bucket
-    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
+    homepage: "https://github.com/somaz94/template-go-cli"
     description: "A brief description of your CLI tool"
     license: "Apache-2.0"

@@ -15,8 +15,6 @@ make vet             # go vet
 make install         # Install to /usr/local/bin
 ```
 
-## Commit Guidelines
-
 - Do not include `Co-Authored-By` lines in commit messages.
 - Use Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `ci:`, `chore:`)
 - Do not push to remote. Only commit. The user will push manually.
@@ -44,8 +42,6 @@ scripts/
 
 1. **Tests first** — Write or update tests. Run `make test` and ensure all tests pass.
 2. **Documentation second** — Update README.md and CLAUDE.md if needed.
-
-## Language
 
 - Communicate with the user in Korean.
 - All documentation and code comments must be written in English.

@@ -5,6 +5,11 @@ set -euo pipefail
 # Usage: curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_PROJECT/main/scripts/install.sh | bash
 
 REPO="YOUR_USERNAME/YOUR_PROJECT"
+# The release archive is named after the project (goreleaser's .ProjectName),
+# the binary inside it after the command. They are only the same string when the
+# repository and the binary share a name — keep them separate or the download
+# URL 404s.
+PROJECT="YOUR_PROJECT"
 BINARY="mycli"
 INSTALL_DIR="/usr/local/bin"
 
@@ -52,23 +57,23 @@ main() {
   get_latest_version
   info "Latest version: v${VERSION}"
 
-  ARCHIVE="${BINARY}_${VERSION}_${OS}_${ARCH}.tar.gz"
+  ARCHIVE="${PROJECT}_${VERSION}_${OS}_${ARCH}.tar.gz"
   DOWNLOAD_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${ARCHIVE}"
 
-  TMPDIR=$(mktemp -d)
-  trap 'rm -rf "$TMPDIR"' EXIT
+  TMP_DIR=$(mktemp -d)
+  trap 'rm -rf "$TMP_DIR"' EXIT
 
   info "Downloading ${ARCHIVE}..."
-  curl -sSL "$DOWNLOAD_URL" -o "${TMPDIR}/${ARCHIVE}" || fail "Download failed: ${DOWNLOAD_URL}"
+  curl -sSL "$DOWNLOAD_URL" -o "${TMP_DIR}/${ARCHIVE}" || fail "Download failed: ${DOWNLOAD_URL}"
 
   info "Extracting..."
-  tar -xzf "${TMPDIR}/${ARCHIVE}" -C "$TMPDIR"
+  tar -xzf "${TMP_DIR}/${ARCHIVE}" -C "$TMP_DIR"
 
   info "Installing to ${INSTALL_DIR}/${BINARY}..."
   if [ -w "$INSTALL_DIR" ]; then
-    mv "${TMPDIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
+    mv "${TMP_DIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
   else
-    sudo mv "${TMPDIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
+    sudo mv "${TMP_DIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
   fi
   chmod +x "${INSTALL_DIR}/${BINARY}"
 

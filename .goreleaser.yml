@@ -1,5 +1,10 @@
 version: 2
 
+# Names the release archives. Set it explicitly: it defaults to the repository
+# name, which is not always the binary name, and scripts/install.sh builds its
+# download URL from this rather than from the binary.
+project_name: YOUR_PROJECT
+
 before:
   hooks:
     - go mod tidy
@@ -18,9 +23,9 @@ builds:
       - arm64
     ldflags:
       - -s -w
-      - -X github.com/somaz94/template-go-cli/cmd/cli.Version={{.Version}}
-      - -X github.com/somaz94/template-go-cli/cmd/cli.GitCommit={{.Commit}}
-      - -X github.com/somaz94/template-go-cli/cmd/cli.BuildDate={{.Date}}
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.Version={{.Version}}
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.GitCommit={{.Commit}}
+      - -X github.com/YOUR_USERNAME/YOUR_PROJECT/cmd/cli.BuildDate={{.Date}}
 
 archives:
   - formats:
@@ -63,16 +68,16 @@ changelog:
 
 release:
   github:
-    owner: somaz94
-    name: template-go-cli
+    owner: YOUR_USERNAME
+    name: YOUR_PROJECT
   draft: false
   prerelease: auto
 
 brews:
   - repository:
-      owner: somaz94
+      owner: YOUR_USERNAME
       name: homebrew-tap
-    homepage: "https://github.com/somaz94/template-go-cli"
+    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
     description: "A brief description of your CLI tool"
     license: "Apache-2.0"
     install: |
@@ -87,12 +92,12 @@ brews:
         mycli version        # Show version info
         mycli --help         # Full usage
 
-      Docs: https://github.com/somaz94/template-go-cli
+      Docs: https://github.com/YOUR_USERNAME/YOUR_PROJECT
 
 scoops:
   - repository:
-      owner: somaz94
+      owner: YOUR_USERNAME
       name: scoop-bucket
-    homepage: "https://github.com/somaz94/template-go-cli"
+    homepage: "https://github.com/YOUR_USERNAME/YOUR_PROJECT"
     description: "A brief description of your CLI tool"
     license: "Apache-2.0"

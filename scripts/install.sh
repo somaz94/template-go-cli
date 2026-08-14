@@ -3,6 +3,10 @@ set -euo pipefail
 
 # Installer script
 # Usage: curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_PROJECT/main/scripts/install.sh | bash
+#
+# Set INSTALL_DIR to install somewhere else — useful for a directory you own,
+# which avoids the sudo the default requires:
+#   curl -sSL .../install.sh | INSTALL_DIR="$HOME/.local/bin" bash
 
 REPO="YOUR_USERNAME/YOUR_PROJECT"
 # The release archive is named after the project (goreleaser's .ProjectName),
@@ -11,7 +15,7 @@ REPO="YOUR_USERNAME/YOUR_PROJECT"
 # URL 404s.
 PROJECT="YOUR_PROJECT"
 BINARY="mycli"
-INSTALL_DIR="/usr/local/bin"
+INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
 RED='\033[31m'
 GREEN='\033[32m'
@@ -70,12 +74,16 @@ main() {
   tar -xzf "${TMP_DIR}/${ARCHIVE}" -C "$TMP_DIR"
 
   info "Installing to ${INSTALL_DIR}/${BINARY}..."
+  # chmod goes in the same branch as the move: after a sudo mv the file can be
+  # root-owned, and chmod needs the owner, not write access to the directory.
   if [ -w "$INSTALL_DIR" ]; then
     mv "${TMP_DIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
+    chmod +x "${INSTALL_DIR}/${BINARY}"
   else
+    [ -d "$INSTALL_DIR" ] || fail "No such directory: ${INSTALL_DIR}"
     sudo mv "${TMP_DIR}/${BINARY}" "${INSTALL_DIR}/${BINARY}"
+    sudo chmod +x "${INSTALL_DIR}/${BINARY}"
   fi
-  chmod +x "${INSTALL_DIR}/${BINARY}"
 
   ok "${BINARY} v${VERSION} installed successfully!"
   echo ""
